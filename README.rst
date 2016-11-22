@@ -7,24 +7,23 @@ A CLI tool that can be used to watch Elasticsearch cluster.
 Synopsis
 --------
 
-The tool supports the following options:
+The tool uses `docopt <http://docopt.org/>`_ to describe command line language and supports the following options:
 
-- `help` - lists the options below with their usage and default values
-- `duration` - tool will run for this many seconds/minutes/hours/forever
-- `interval` - tool will poll ES and print stats every this many seconds
-- `url` - ES url e.g. https://logging-es:9200
-- `username`
-- `password`
-- `client_cert`
-- `client_key`
-- `ca_cert`
-- `format` - text or json
-   - could use _cat endpoints for text and regular endpoints for json
-- `category` - for example, from https://www.elastic.co/guide/en/elasticsearch/guide/current/_cat_api.html
-   - there are endpoints for allocation, shards, master, nodes, indices, etc.
+| Usage:
+|   watches ( cluster_health | cluster_state ) [--url=URL]
+|   watches -h | --help
+|   watches --version
+|
+| Options:
+|   -h --help         Show this screen.
+|   --version         Show version.
+|   --url=URL         URL of ES node HTTP endpoint [default: http://localhost:9200].
+|
+| Examples:
+|   watches cluster_health --url=http://localhost:9200
 
-Usage
------
+Install, Test and Release
+-------------------------
 
 If you've cloned this project, and want to install the library (*and all
 development dependencies*), the command you'll want to run is::
