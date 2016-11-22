@@ -7,7 +7,7 @@ A CLI tool that can be used to watch Elasticsearch cluster.
 Synopsis
 --------
 
-The tool uses `docopt <http://docopt.org/>`_ to describe command line language and supports the following options:
+The tool uses `docopt <http://docopt.org/>`_ to describe command line language and supports the following options::
 
     Usage:
       watches ( cluster_health | cluster_state ) [--url=URL]
