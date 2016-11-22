@@ -9,18 +9,18 @@ Synopsis
 
 The tool uses `docopt <http://docopt.org/>`_ to describe command line language and supports the following options:
 
-| Usage:
-|   watches ( cluster_health | cluster_state ) [--url=URL]
-|   watches -h | --help
-|   watches --version
+| ``Usage:``
+|   ``watches ( cluster_health | cluster_state ) [--url=URL]``
+|   ``watches -h | --help``
+|   ``watches --version``
 |
-| Options:
-|   -h --help         Show this screen.
-|   --version         Show version.
-|   --url=URL         URL of ES node HTTP endpoint [default: http://localhost:9200].
+| ``Options:``
+|   ``-h --help         Show this screen.``
+|   ``--version         Show version.``
+|   ``--url=URL         URL of ES node HTTP endpoint [default: http://localhost:9200].``
 |
-| Examples:
-|   watches cluster_health --url=http://localhost:9200
+| ``Examples:``
+|   ``watches cluster_health --url=http://localhost:9200``
 
 Install, Test and Release
 -------------------------
