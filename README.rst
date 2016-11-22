@@ -56,7 +56,9 @@ new package to PyPI so everyone in the world can use it!
 Credits
 -------
 
-Built on top of `skele-cli <https://github.com/rdegges/skele-cli.git>`_ skeleton.
+Built on top of `skele-cli <https://github.com/rdegges/skele-cli.git>`_ skeleton, read
+`skele-cli blog post <https://stormpath.com/blog/building-simple-cli-interfaces-in-python>`_
+to learn more.
 
 
 License

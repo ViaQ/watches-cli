@@ -2,16 +2,17 @@
 watches
 
 Usage:
-  watches hello
+  watches ( cluster_health | cluster_state ) [--url=URL]
   watches -h | --help
   watches --version
 
 Options:
-  -h --help                         Show this screen.
-  --version                         Show version.
+  -h --help         Show this screen.
+  --version         Show version.
+  --url=URL         URL of ES node HTTP endpoint [default: http://localhost:9200].
 
 Examples:
-  watches hello
+  watches cluster_health --url=http://localhost:9200
 
 Help:
   For help using this tool, please open an issue on the Github repository:
