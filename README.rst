@@ -70,3 +70,10 @@ License
 -------
 
 Watches CLI is licensed under the `Apache License, Version 2.0 <http://www.apache.org/licenses/>`_.
+
+
+Build status
+------------
+
+.. image:: https://secure.travis-ci.org/ViaQ/watches-cli.png
+   :target: http://travis-ci.org/#!/ViaQ/watches-cli
