@@ -12,7 +12,7 @@ python:
 jdk:
   - "oraclejdk8"
 
-#env:
+env:
   # different connection classes to test
 #  - TEST_ES_CONNECTION=Urllib3HttpConnection ES_VERSION=2.4.1
   - TEST_ES_CONNECTION=RequestsHttpConnection ES_VERSION=2.4.1
