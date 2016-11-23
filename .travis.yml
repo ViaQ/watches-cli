@@ -21,7 +21,8 @@ install:
   - wget -O /tmp/es.zip "https://oss.sonatype.org/service/local/artifact/maven/redirect?r=releases&g=org.elasticsearch.distribution.zip&a=elasticsearch&e=zip&v=2.4.1"
   - unzip /tmp/es.zip -d /tmp/
   - mv /tmp/elasticsearch-2.4.1 /tmp/elasticsearch
-  - /tmp/elasticsearch/bin/elasticsearch -Dscript.inline=true -Dpath.repo=/tmp -Drepositories.url.allowed_urls='http://*' -Dnode.attr.testattr=test
+#  - /tmp/elasticsearch/bin/elasticsearch -d -E script.inline=true -E path.repo=/tmp -E repositories.url.allowed_urls='http://*' -E node.attr.testattr=test
+  - /tmp/elasticsearch/bin/elasticsearch -d
 #  - git clone https://github.com/elastic/elasticsearch.git ../elasticsearch
   - pip install .
 
