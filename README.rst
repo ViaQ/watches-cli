@@ -10,16 +10,19 @@ Synopsis
 The tool uses `docopt <http://docopt.org/>`_ to describe command line language and supports the following options::
 
     Usage:
-      watches ( cluster_health | cluster_state ) [--url=URL] [--timestamp] [--verbose]
+      watches cluster_health [--url=URL] [--timestamp] [--verbose] [--level=LEVEL] [--local]
+      watches cluster_state  [--url=URL] [--timestamp] [--verbose]
       watches -h | --help
       watches --version
 
     Options:
       -h --help             Show this screen.
       --version             Show version.
-      --verbose             Print more info: input options, ... etc.
       --url=URL             URL of ES node HTTP endpoint [default: http://localhost:9200].
-      --timestamp           Add timestamp field to data. The value is localtime converted to UTC in ISO 8601 format.
+      --timestamp           Add timestamp field to data. The value is local datetime converted to UTC in ISO 8601 format.
+      --verbose             Print more debug info: input options, ... etc.
+      --level=LEVEL         LEVEL can be: cluster, indices or shards. [default: cluster].
+      --local               Return the local node information instead of master node.
 
     Examples:
       watches cluster_health --timestamp --url=http://127.0.0.1:9200

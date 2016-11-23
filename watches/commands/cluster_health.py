@@ -8,5 +8,5 @@ class ClusterHealth(Base):
     """Get cluster health"""
 
     def getData(self):
-        return self.es.cluster.health(wait_for_status='yellow', request_timeout=1)
+        return self.es.cluster.health(level=self.options['--level'], local=self.options['--local'], request_timeout=1)
 
