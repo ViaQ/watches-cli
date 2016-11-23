@@ -14,13 +14,13 @@ jdk:
 
 #env:
   # different connection classes to test
-#  - TEST_ES_CONNECTION=Urllib3HttpConnection
-#  - TEST_ES_CONNECTION=RequestsHttpConnection
+#  - TEST_ES_CONNECTION=Urllib3HttpConnection ES_VERSION=2.4.1
+  - TEST_ES_CONNECTION=RequestsHttpConnection ES_VERSION=2.4.1
 
 install:
-  - wget -O /tmp/es.zip "https://oss.sonatype.org/service/local/artifact/maven/redirect?r=releases&g=org.elasticsearch.distribution.zip&a=elasticsearch&e=zip&v=2.4.1"
+  - wget -O /tmp/es.zip "https://oss.sonatype.org/service/local/artifact/maven/redirect?r=releases&g=org.elasticsearch.distribution.zip&a=elasticsearch&e=zip&v=${ES_VERSION}"
   - unzip /tmp/es.zip -d /tmp/
-  - mv /tmp/elasticsearch-2.4.1 /tmp/elasticsearch
+  - mv /tmp/elasticsearch-${ES_VERSION} /tmp/elasticsearch
 #  - /tmp/elasticsearch/bin/elasticsearch -d -E script.inline=true -E path.repo=/tmp -E repositories.url.allowed_urls='http://*' -E node.attr.testattr=test
   - /tmp/elasticsearch/bin/elasticsearch -d
 #  - git clone https://github.com/elastic/elasticsearch.git ../elasticsearch
