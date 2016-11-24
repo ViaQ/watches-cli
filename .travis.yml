@@ -23,6 +23,7 @@ install:
   - mv /tmp/elasticsearch-${ES_VERSION} /tmp/elasticsearch
 #  - /tmp/elasticsearch/bin/elasticsearch -d -E script.inline=true -E path.repo=/tmp -E repositories.url.allowed_urls='http://*' -E node.attr.testattr=test
   - /tmp/elasticsearch/bin/elasticsearch -d
+  - sleep 15
 #  - git clone https://github.com/elastic/elasticsearch.git ../elasticsearch
   - pip install -e .[test]
 
