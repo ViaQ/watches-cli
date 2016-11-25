@@ -50,6 +50,8 @@ some*), you would run the following command::
 This will trigger `py.test <http://pytest.org/latest/>`_, along with its popular
 `coverage <https://pypi.python.org/pypi/pytest-cov>`_ plugin.
 
+Tests assume ES node running on ``http://localhost:9200``.
+
 Lastly, if you'd like to cut a new release of this CLI tool, and publish it to
 the Python Package Index (`PyPI <https://pypi.python.org/pypi>`_), you can do so
 by running::
