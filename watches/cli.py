@@ -5,6 +5,7 @@ Usage:
   watches cluster_health [--url=URL] [--timestamp] [--verbose] [--level=LEVEL] [--local]
   watches cluster_state  [--url=URL] [--timestamp] [--verbose]
   watches cluster_stats  [--url=URL] [--timestamp] [--verbose]
+  watches nodes_stats    [--url=URL] [--timestamp] [--verbose]
   watches -h | --help
   watches --version
 
