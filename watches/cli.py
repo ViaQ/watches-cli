@@ -6,6 +6,7 @@ Usage:
   watches cluster_state  [--url=URL] [--timestamp] [--verbose]
   watches cluster_stats  [--url=URL] [--timestamp] [--verbose]
   watches nodes_stats    [--url=URL] [--timestamp] [--verbose]
+  watches nodes_info     [--url=URL] [--timestamp] [--verbose] [--node_id=NODE_ID]
   watches -h | --help
   watches --version
 
@@ -17,6 +18,7 @@ Options:
   --verbose             Print more debug info: input options, ... etc.
   --level=LEVEL         LEVEL can be: cluster, indices or shards. [default: cluster].
   --local               Return the local node information instead of master node.
+  --node_id=NODE_ID     A comma-separated list of node IDs or names to limit the returned information; use `_local` to return information from local node you're connecting to [default: ].
 
 Examples:
   watches cluster_health --timestamp --url=http://127.0.0.1:9200
