@@ -42,10 +42,12 @@ class TestClusterHealth(TestCase):
         self.assertFalse('"shards"' in output)
 
     def test_returns_cluster_health_with_shards(self):
-        output = popen(['watches', 'cluster_health', '--level=shards'], stdout=PIPE).communicate()[0]
+
         # Unless we index some data to cluster the output does not contain "shards" part
         # TODO: make ES client configurable, now it is hardcoded to default: 'http://localhost:9200'
         es = Elasticsearch()
-        es.create(index='i', doc_type='t', id='1', body={}, ignore=409)
+        es.create(index='i', doc_type='t', id='1', body={}, ignore=409, refresh=True)
+
+        output = popen(['watches', 'cluster_health', '--level=shards'], stdout=PIPE).communicate()[0]
         self.assertTrue('"indices":' in output)
         self.assertTrue('"shards"' in output)

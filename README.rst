@@ -21,6 +21,7 @@ The tool uses `docopt <http://docopt.org/>`_ to describe command line language a
       watches cluster_stats  [--url=URL] [--timestamp] [--verbose]
       watches nodes_stats    [--url=URL] [--timestamp] [--verbose]
       watches nodes_info     [--url=URL] [--timestamp] [--verbose] [--node_id=NODE_ID]
+      watches indices_stats  [--url=URL] [--timestamp] [--verbose] [--level=LEVEL] [--index=INDEX]
       watches -h | --help
       watches --version
 
@@ -30,9 +31,10 @@ The tool uses `docopt <http://docopt.org/>`_ to describe command line language a
       --url=URL             URL of ES node HTTP endpoint [default: http://localhost:9200].
       --timestamp           Add timestamp field to data. The value is local datetime converted to UTC in ISO 8601 format.
       --verbose             Print more debug info: input options, ... etc.
-      --level=LEVEL         LEVEL can be: cluster, indices or shards. [default: cluster].
+      --level=LEVEL         Aggregation level of returned data, valid options: cluster, indices or shards. [default: cluster].
       --local               Return the local node information instead of master node.
       --node_id=NODE_ID     A comma-separated list of node IDs or names to limit the returned information; use `_local` to return information from local node you're connecting to [default: ].
+      --index=INDEX         A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices.
 
     Examples:
       watches cluster_health --timestamp --url=http://127.0.0.1:9200

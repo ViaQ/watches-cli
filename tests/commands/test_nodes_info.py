@@ -14,7 +14,4 @@ class TestNodesInfo(TestCase):
     def test_returns_nodes_info(self):
         output = popen(['watches', 'nodes_info'], stdout=PIPE).communicate()[0]
         self.assertTrue('cluster_name' in output)
-        # self.assertTrue('timestamp' in output)
         self.assertTrue('nodes' in output)
-        # self.assertTrue('status' in output)
-        # self.assertTrue('indices' in output)
