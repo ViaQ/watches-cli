@@ -16,28 +16,37 @@ Synopsis
 The tool uses `docopt <http://docopt.org/>`_ to describe command line language and supports the following options::
 
     Usage:
-      watches cluster_health [--url=URL] [--timestamp] [--verbose] [--level=LEVEL] [--local]
-      watches cluster_state  [--url=URL] [--timestamp] [--verbose]
-      watches cluster_stats  [--url=URL] [--timestamp] [--verbose]
-      watches nodes_stats    [--url=URL] [--timestamp] [--verbose]
-      watches nodes_info     [--url=URL] [--timestamp] [--verbose] [--node_id=NODE_ID]
-      watches indices_stats  [--url=URL] [--timestamp] [--verbose] [--level=LEVEL] [--index=INDEX]
-      watches -h | --help
+      watches cluster_health [-i=INTERVAL -d=DURATION --url=URL --timestamp -v] [--level=LEVEL --local]
+      watches cluster_state  [-i=INTERVAL -d=DURATION --url=URL --timestamp -v]
+      watches cluster_stats  [-i=INTERVAL -d=DURATION --url=URL --timestamp -v]
+      watches nodes_stats    [-i=INTERVAL -d=DURATION --url=URL --timestamp -v]
+      watches nodes_info     [-i=INTERVAL -d=DURATION --url=URL --timestamp -v] [--node_id=NODE_ID]
+      watches indices_stats  [-i=INTERVAL -d=DURATION --url=URL --timestamp -v] [--level=LEVEL --index=INDEX]
+      watches -h
       watches --version
 
     Options:
-      -h --help             Show this screen.
-      --version             Show version.
-      --url=URL             URL of ES node HTTP endpoint [default: http://localhost:9200].
-      --timestamp           Add timestamp field to data. The value is local datetime converted to UTC in ISO 8601 format.
-      --verbose             Print more debug info: input options, ... etc.
-      --level=LEVEL         Aggregation level of returned data, valid options: cluster, indices or shards. [default: cluster].
-      --local               Return the local node information instead of master node.
-      --node_id=NODE_ID     A comma-separated list of node IDs or names to limit the returned information; use `_local` to return information from local node you're connecting to [default: ].
-      --index=INDEX         A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices.
+      -d=DURATION, --duration=DURATION   How long the watches should run in seconds. Use value '-1' to run forever. [default: 0].
+      -i=INTERVAL, --interval=INTERVAL   Interval between data retrievals. Apply if 'duration' > 0. [default: 3].
+      --url=URL           URL of ES node HTTP endpoint [default: http://localhost:9200].
+      --timestamp         Add timestamp field to data. The value is local datetime converted to UTC in ISO 8601 format.
+      -v, --verbose       Print more debug info: input options, ... etc.
+      --level=LEVEL       Aggregation level of returned data, valid options: cluster, indices or shards. [default: cluster].
+      --local             Return the local node information instead of master node.
+      --node_id=NODE_ID   A comma-separated list of node IDs or names to limit the returned information; use `_local` to return information from local node you're connecting to [default: ].
+      --index=INDEX       A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices.
+      -h, --help          Show this screen.
+      --version           Show version.
 
     Examples:
-      watches cluster_health --timestamp --url=http://127.0.0.1:9200
+      # Get cluster health from specified HTTP endpoint with added "timestamp" field in the response
+      $ watches cluster_health --timestamp --url=http://127.0.0.1:9200
+
+      # Get cluster health every 1 second, run forever until process is terminated
+      $ watches cluster_health --interval=1 --duration=-1
+
+      # Get cluster health every 1 second during next 10 seconds
+      $ watches cluster_health --interval=1 --duration=10
 
 Install, Test and Release
 -------------------------
