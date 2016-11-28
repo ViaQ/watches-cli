@@ -50,9 +50,9 @@ The tool uses `docopt <http://docopt.org/>`_ to describe command line language a
       $ watches cluster_health --interval=1 --duration=10 --sniff
 
 To connect to Elasticsearch cluster ``watches`` uses official
-``elasticsearch-py <https://github.com/elastic/elasticsearch-py/>`` client which
+`elasticsearch-py <https://github.com/elastic/elasticsearch-py/>`_ client which
 can use `Sniffing <http://elasticsearch-py.readthedocs.io/en/master/index.html#sniffing>`_.
-It is recommended to use sniffing for long running tasks.
+It is recommended to use ``--sniff`` option (see above) to enable sniffing for long running tasks.
 
 Install, Test and Release
 -------------------------
