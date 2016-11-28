@@ -35,6 +35,9 @@ Examples:
   # Get cluster health every 1 second during next 10 seconds and use sniffing
   $ watches cluster_health --interval=1 --duration=10 --sniff
 
+  # Alternatively, using short option notation
+  $ watches cluster_health -i 1 -d 10 -s
+
 Help:
   For help using this tool, please open an issue on the GitHub repository:
   https://github.com/ViaQ/watches-cli

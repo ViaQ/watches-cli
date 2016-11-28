@@ -49,6 +49,9 @@ The tool uses `docopt <http://docopt.org/>`_ to describe command line language a
       # Get cluster health every 1 second during next 10 seconds and use sniffing
       $ watches cluster_health --interval=1 --duration=10 --sniff
 
+      # Alternatively, using short option notation
+      $ watches cluster_health -i 1 -d 10 -s
+
 To connect to Elasticsearch cluster ``watches`` uses official
 `elasticsearch-py <https://github.com/elastic/elasticsearch-py/>`_ client which
 can use `Sniffing <http://elasticsearch-py.readthedocs.io/en/master/index.html#sniffing>`_.
