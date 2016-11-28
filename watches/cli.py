@@ -67,20 +67,20 @@ def main():
             command = [command[1] for command in commands if command[0] != 'Base'][0]
             command = command(options)
 
-            startsec = calendar.timegm(time.gmtime())
             duration = int(options['--duration'])
             interval = int(options['--interval'])
+            startsec = calendar.timegm(time.gmtime())
             endsec = (startsec + duration)
 
             while True:
                 execute(command)
                 if duration == 0:
                     break
-                time.sleep(interval)
                 actualsec = calendar.timegm(time.gmtime())
                 # print duration, interval, startsec, actualsec, endsec
-                if interval > -1 and actualsec >= endsec:
+                if duration > -1 and (actualsec + interval) >= endsec:
                     break
+                time.sleep(interval)
 
 def execute(command):
     """
