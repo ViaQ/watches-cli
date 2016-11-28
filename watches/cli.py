@@ -49,6 +49,7 @@ from inspect import getmembers, isclass
 from docopt import docopt
 import time
 import calendar
+import logging
 
 from . import __version__ as VERSION
 
@@ -90,8 +91,9 @@ def execute(command):
     """
     try:
         command.run()
-    except Exception, e:
-        # TODO: this should go to a log
-        print "Error executing command:", e
+    except Exception:
+        # Is this acceptable way of logging exceptions?
+        # http://stackoverflow.com/a/4508872
+        logging.exception('')
         pass
 
