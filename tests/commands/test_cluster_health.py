@@ -12,6 +12,11 @@ class TestClusterHealth(TestCase):
         lines = output.split('\n')
         self.assertTrue(len(lines) != 1)
 
+    def test_returns_cluster_health_with_sniffing(self):
+        output = popen(['watches', 'cluster_health', '--sniff'], stdout=PIPE).communicate()[0]
+        lines = output.split('\n')
+        self.assertTrue(len(lines) != 1)
+
     def test_returns_cluster_health_with_verbose(self):
         output = popen(['watches', 'cluster_health', '--verbose'], stdout=PIPE).communicate()[0]
         # Unless we index some data to cluster we can only check the indices field is present

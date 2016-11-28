@@ -17,7 +17,16 @@ class Base(object):
         if self.options["--verbose"]:
             print 'Supplied options:', dumps(self.options, indent=2, sort_keys=True)
 
-        self.es = Elasticsearch([options["--url"]])
+        if self.options["--sniff"]:
+            self.es = Elasticsearch([options["--url"]],
+                # sniff before doing anything
+                sniff_on_start=True,
+                # refresh nodes after a node fails to respond
+                sniff_on_connection_fail=True,
+                # and also every 60 seconds
+                sniffer_timeout=60 )
+        else:
+            self.es = Elasticsearch([options["--url"]])
 
     def run(self):
         # Not sure if this is the best way to convert localtime to UTC in ISO 8601 format

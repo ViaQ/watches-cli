@@ -16,12 +16,12 @@ Synopsis
 The tool uses `docopt <http://docopt.org/>`_ to describe command line language and supports the following options::
 
     Usage:
-      watches cluster_health [-i=INTERVAL -d=DURATION --url=URL --timestamp -v] [--level=LEVEL --local]
-      watches cluster_state  [-i=INTERVAL -d=DURATION --url=URL --timestamp -v]
-      watches cluster_stats  [-i=INTERVAL -d=DURATION --url=URL --timestamp -v]
-      watches nodes_stats    [-i=INTERVAL -d=DURATION --url=URL --timestamp -v]
-      watches nodes_info     [-i=INTERVAL -d=DURATION --url=URL --timestamp -v] [--node_id=NODE_ID]
-      watches indices_stats  [-i=INTERVAL -d=DURATION --url=URL --timestamp -v] [--level=LEVEL --index=INDEX]
+      watches cluster_health [-i=INTERVAL -d=DURATION --url=URL -tsv] [--level=LEVEL --local]
+      watches cluster_state  [-i=INTERVAL -d=DURATION --url=URL -tsv]
+      watches cluster_stats  [-i=INTERVAL -d=DURATION --url=URL -tsv]
+      watches nodes_stats    [-i=INTERVAL -d=DURATION --url=URL -tsv]
+      watches nodes_info     [-i=INTERVAL -d=DURATION --url=URL -tsv] [--node_id=NODE_ID]
+      watches indices_stats  [-i=INTERVAL -d=DURATION --url=URL -tsv] [--level=LEVEL --index=INDEX]
       watches -h
       watches --version
 
@@ -29,7 +29,8 @@ The tool uses `docopt <http://docopt.org/>`_ to describe command line language a
       -d=DURATION, --duration=DURATION   How long the watches should run in seconds. Use value '-1' to run forever. [default: 0].
       -i=INTERVAL, --interval=INTERVAL   Interval between data retrievals. Apply if 'duration' > 0. [default: 3].
       --url=URL           URL of ES node HTTP endpoint [default: http://localhost:9200].
-      --timestamp         Add timestamp field to data. The value is local datetime converted to UTC in ISO 8601 format.
+      -t, --timestamp     Add timestamp field to data. The value is local datetime converted to UTC in ISO 8601 format.
+      -s, --sniff         Turn on sniffing.
       -v, --verbose       Print more debug info: input options, ... etc.
       --level=LEVEL       Aggregation level of returned data, valid options: cluster, indices or shards. [default: cluster].
       --local             Return the local node information instead of master node.
@@ -45,8 +46,13 @@ The tool uses `docopt <http://docopt.org/>`_ to describe command line language a
       # Get cluster health every 1 second, run forever until process is terminated
       $ watches cluster_health --interval=1 --duration=-1
 
-      # Get cluster health every 1 second during next 10 seconds
-      $ watches cluster_health --interval=1 --duration=10
+      # Get cluster health every 1 second during next 10 seconds and use sniffing
+      $ watches cluster_health --interval=1 --duration=10 --sniff
+
+To connect to Elasticsearch cluster ``watches`` uses official
+``elasticsearch-py <https://github.com/elastic/elasticsearch-py/>`` client which
+can use `Sniffing <http://elasticsearch-py.readthedocs.io/en/master/index.html#sniffing>`_.
+It is recommended to use sniffing for long running tasks.
 
 Install, Test and Release
 -------------------------
