@@ -28,6 +28,24 @@ class TestNodesStats(TestSecureSupport):
         self.assertTrue('jvm' in first_node_info)
         self.assertTrue('os' in first_node_info)
 
+    def test_returns_cluster_stats_metric(self):
+        cmd = self.appendSecurityCommands(['watches', 'nodes_stats', '--metric=transport,os'])
+        output = popen(cmd, stdout=PIPE).communicate()[0]
+        o = json.loads(output)
+        self.assertTrue(len(o['nodes']) == 1)
+        node_id = o['nodes'].keys()[0]
+        node_stats = o['nodes'][node_id]
+        # We require two metrics, but there is some other info available in any case,
+        # thus expected size is not 2 but 7.
+        self.assertTrue(len(node_stats) == 7)
+        self.assertTrue('transport_address' in node_stats)
+        self.assertTrue('name' in node_stats)
+        self.assertTrue('timestamp' in node_stats)
+        self.assertTrue('host' in node_stats)
+        self.assertTrue('ip' in node_stats)
+        self.assertTrue('os' in node_stats)
+        self.assertTrue('transport' in node_stats)
+
     def test_returns_cluster_stats_filtered(self):
         cmd = self.appendSecurityCommands(['watches', 'nodes_stats', '-f nodes.*.thread_pool.bulk'])
         output = popen(cmd, stdout=PIPE).communicate()[0]
