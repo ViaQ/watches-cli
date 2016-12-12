@@ -30,6 +30,26 @@ class TestNodesInfo(TestSecureSupport):
         self.assertTrue('os' in first_node_info)
         self.assertTrue('plugins' in first_node_info)
 
+    def test_returns_nodes_info_metric(self):
+        cmd = self.appendSecurityCommands(['watches', 'nodes_info', '--metric=http,process'])
+        output = popen(cmd, stdout=PIPE).communicate()[0]
+        o = json.loads(output)
+        self.assertTrue(len(o['nodes']) == 1)
+        node_id = o['nodes'].keys()[0]
+        node_info = o['nodes'][node_id]
+        # We required two metrics, but there is some other info available in any case,
+        # thus expected size is not 2 but 9.
+        self.assertTrue(len(node_info) == 9)
+        self.assertTrue('transport_address' in node_info)
+        self.assertTrue('http' in node_info)
+        self.assertTrue('name' in node_info)
+        self.assertTrue('process' in node_info)
+        self.assertTrue('ip' in node_info)
+        self.assertTrue('host' in node_info)
+        self.assertTrue('version' in node_info)
+        self.assertTrue('build' in node_info)
+        self.assertTrue('http_address' in node_info)
+
     def test_returns_nodes_info_filtered(self):
         cmd = self.appendSecurityCommands(['watches', 'nodes_info', '-f nodes.*.thread_pool.bulk'])
         output = popen(cmd, stdout=PIPE).communicate()[0]

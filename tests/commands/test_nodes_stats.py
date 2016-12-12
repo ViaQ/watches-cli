@@ -35,7 +35,7 @@ class TestNodesStats(TestSecureSupport):
         self.assertTrue(len(o['nodes']) == 1)
         node_id = o['nodes'].keys()[0]
         node_stats = o['nodes'][node_id]
-        # We require two metrics, but there is some other info available in any case,
+        # We required two metrics, but there is some other info available in any case,
         # thus expected size is not 2 but 7.
         self.assertTrue(len(node_stats) == 7)
         self.assertTrue('transport_address' in node_stats)

@@ -6,7 +6,7 @@ Usage:
   watches cluster_state  [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY)] [-f=FILTER...] [--local --index=INDEX --metric=METRIC]
   watches cluster_stats  [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY)] [-f=FILTER...]
   watches nodes_stats    [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY)] [-f=FILTER...] [--metric=METRIC]
-  watches nodes_info     [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY)] [-f=FILTER...] [--node_id=NODE_ID]
+  watches nodes_info     [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY)] [-f=FILTER...] [--node_id=NODE_ID --metric=METRIC]
   watches indices_stats  [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY)] [-f=FILTER...] [--level=LEVEL --index=INDEX]
   watches -h
   watches --version

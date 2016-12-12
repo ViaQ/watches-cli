@@ -9,7 +9,8 @@ class NodesInfo(Base):
 
     def getData(self):
         args = {
-            'node_id': self.options['--node_id']
+            'node_id': self.options['--node_id'],
+            'metric': self.options['--metric']
         }
         self.check_filter_path(args)
         return self.es.nodes.info(**args)
