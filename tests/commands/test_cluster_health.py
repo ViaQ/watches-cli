@@ -8,6 +8,8 @@ from watches.util import ESClientProducer
 
 
 class TestClusterHealth(TestSecureSupport):
+    username_password = ['--username', 'kirk', '--password', 'kirk']
+
     def test_returns_json(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_health'])
         output = popen(cmd, stdout=PIPE).communicate()[0]
@@ -98,3 +100,49 @@ class TestClusterHealth(TestSecureSupport):
 
         self.assertTrue(len(o['indices']['i']['shards']['0']) == 1)
         self.assertTrue('status' in o['indices']['i']['shards']['0'])
+
+    def test_ca_cert_only(self):
+        cmd = self.appendOnlyCAcert(['watches', 'cluster_health'])
+        cmd.extend(TestClusterHealth.username_password)
+        output = popen(cmd, stdout=PIPE).communicate()[0]
+        o = json.loads(output)
+        self.assertTrue(len(o) == 15)
+        self.assertTrue('status' in o)
+        self.assertTrue('cluster_name' in o)
+        self.assertTrue('number_of_nodes' in o)
+
+    def test_ca_cert_only_and_headers(self):
+        cmd = self.appendOnlyCAcert(['watches', 'cluster_health'])
+        cmd.extend(TestClusterHealth.username_password)
+        cmd.extend(['--header', 'X-Foo: foo', '--header', 'X-Bar: bar'])
+        output = popen(cmd, stdout=PIPE).communicate()[0]
+        o = json.loads(output)
+        self.assertTrue(len(o) == 15)
+        self.assertTrue('status' in o)
+        self.assertTrue('cluster_name' in o)
+        self.assertTrue('number_of_nodes' in o)
+
+   # negative tests to see if we get Usage: message for bogus arguments
+    def test_username_no_password(self):
+        cmd = self.appendOnlyCAcert(['watches', 'cluster_health'])
+        cmd.extend(['--username', 'junk'])
+        output = popen(cmd, stderr=PIPE).communicate()[1]
+        self.assertTrue('Usage:' in output)
+
+    def test_password_no_username(self):
+        cmd = self.appendOnlyCAcert(['watches', 'cluster_health'])
+        cmd.extend(['--password', 'junk'])
+        output = popen(cmd, stderr=PIPE).communicate()[1]
+        self.assertTrue('Usage:' in output)
+
+    def test_cert_no_key(self):
+        cmd = self.appendOnlyCAcert(['watches', 'cluster_health'])
+        cmd.extend(['--cert', './junk'])
+        output = popen(cmd, stderr=PIPE).communicate()[1]
+        self.assertTrue('Usage:' in output)
+
+    def test_key_no_cert(self):
+        cmd = self.appendOnlyCAcert(['watches', 'cluster_health'])
+        cmd.extend(['--key', './junk'])
+        output = popen(cmd, stderr=PIPE).communicate()[1]
+        self.assertTrue('Usage:' in output)
