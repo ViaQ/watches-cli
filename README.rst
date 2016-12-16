@@ -16,12 +16,12 @@ Synopsis
 The tool uses `docopt <http://docopt.org/>`_ to describe command line language and supports the following options::
 
     Usage:
-      watches cluster_health [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [-f=FILTER...] [--level=LEVEL --local] [--header=HEADER...]
-      watches cluster_state  [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [-f=FILTER...] [--local --index=INDEX --metric=METRIC] [--header=HEADER...]
-      watches cluster_stats  [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [-f=FILTER...] [--header=HEADER...]
-      watches nodes_stats    [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [-f=FILTER...] [--metric=METRIC] [--header=HEADER...]
-      watches nodes_info     [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [-f=FILTER...] [--node_id=NODE_ID --metric=METRIC] [--header=HEADER...]
-      watches indices_stats  [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [-f=FILTER...] [--level=LEVEL --index=INDEX] [--header=HEADER...]
+      watches cluster_health [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--level=LEVEL --local]
+      watches cluster_state  [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--local --index=INDEX --metric=METRIC]
+      watches cluster_stats  [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...]
+      watches nodes_stats    [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--metric=METRIC]
+      watches nodes_info     [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--node_id=NODE_ID --metric=METRIC]
+      watches indices_stats  [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--level=LEVEL --index=INDEX]
       watches -h
       watches --version
 
