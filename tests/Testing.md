@@ -15,8 +15,19 @@ CI testing is all set up and running on Travis via [travis.yml](`../.travis.yml`
  
 ## Testing manually
 
-Before you can execute tests you need to make sure that you can run Elasticsearch
-locally with all the needed security plugins. You can use
+### Using all in one script
+
+Just go to the folder where you checked out `watches-cli`
+and run [`setup_run_all.sh`](setup/setup_run_all.sh) script:
+
+    ./tests/setup/setup_run_all.sh
+
+The script will download Elasticsearch, install and configure
+Search Guard plugins and run tests.
+
+### Use existing Elasticsearch instance
+
+If you want to use existing Elasticsearch instance then you can use
 provided [sg_init.sh](setup/sg_init.sh) script to configure Elasticsearch for the tests.
 
 Before you run this script make sure that:
