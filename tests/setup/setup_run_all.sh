@@ -17,13 +17,13 @@ export ES_CONF=${ES_CONF:-./tests/conf}
 export ES_HOME=${ES_HOME:-/tmp/elasticsearch}
 export TMP_DIR=${TMP_DIR:-/tmp}
 
-if [ ! -f /tmp/es.zip ] ; then
-    wget -O /tmp/es.zip "https://oss.sonatype.org/service/local/artifact/maven/redirect?r=releases&g=org.elasticsearch.distribution.zip&a=elasticsearch&e=zip&v=${ES_VER}"
+if [ ! -f ${TMP_DIR}/es.zip ] ; then
+    wget -O ${TMP_DIR}/es.zip "https://oss.sonatype.org/service/local/artifact/maven/redirect?r=releases&g=org.elasticsearch.distribution.zip&a=elasticsearch&e=zip&v=${ES_VER}"
 fi
 
 if [ ! -d $ES_HOME ] ; then
-    unzip /tmp/es.zip -d ${TMP_DIR}
-    mv /tmp/elasticsearch-${ES_VER} ${ES_HOME}
+    unzip ${TMP_DIR}/es.zip -d ${TMP_DIR}
+    mv ${TMP_DIR}/elasticsearch-${ES_VER} ${ES_HOME}
 fi
 
 rm -rf $ES_HOME/{data,plugins,logs}
