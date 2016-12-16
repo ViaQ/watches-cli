@@ -2,12 +2,12 @@
 watches
 
 Usage:
-  watches cluster_health [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY)] [-f=FILTER...] [--level=LEVEL --local]
-  watches cluster_state  [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY)] [-f=FILTER...] [--local --index=INDEX --metric=METRIC]
-  watches cluster_stats  [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY)] [-f=FILTER...]
-  watches nodes_stats    [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY)] [-f=FILTER...] [--metric=METRIC]
-  watches nodes_info     [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY)] [-f=FILTER...] [--node_id=NODE_ID --metric=METRIC]
-  watches indices_stats  [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY)] [-f=FILTER...] [--level=LEVEL --index=INDEX]
+  watches cluster_health [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [-f=FILTER...] [--level=LEVEL --local] [--header=HEADER...]
+  watches cluster_state  [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [-f=FILTER...] [--local --index=INDEX --metric=METRIC] [--header=HEADER...]
+  watches cluster_stats  [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [-f=FILTER...] [--header=HEADER...]
+  watches nodes_stats    [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [-f=FILTER...] [--metric=METRIC] [--header=HEADER...]
+  watches nodes_info     [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [-f=FILTER...] [--node_id=NODE_ID --metric=METRIC] [--header=HEADER...]
+  watches indices_stats  [-i=INTERVAL -d=DURATION --url=URL -tsv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [-f=FILTER...] [--level=LEVEL --index=INDEX] [--header=HEADER...]
   watches -h
   watches --version
 
@@ -19,6 +19,8 @@ Options:
   -s, --sniff         Turn on sniffing.
   -v, --verbose       Print more debug info: input options, ... etc.
   -f=FILTER, --filter_path=FILTER   Filter returned JSON (see http://elasticsearch-py.readthedocs.io/en/master/api.html#response-filtering)
+  --username=USERNAME Username to authenticate with
+  --password=PASSWORD Password to authenticate with
   --cacert=CACERT     Path to Certification Authority Certificate pem file
   --cert=CERT         Path to Client Certificate pem file
   --key=KEY           Path to Client Key pem file
@@ -29,6 +31,7 @@ Options:
   --metric=METRIC     A comma-separated list of metric names; use `_all` or empty string to perform the operation for all metrics.
   -h, --help          Show this screen.
   --version           Show version.
+  --header=HEADER     Custom HTTP header to add to the request (e.g. --header="X-Proxy-Remote-User: username")
 
 Examples:
   # Get cluster health from specified HTTP endpoint with added "timestamp" field in the response

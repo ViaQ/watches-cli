@@ -33,6 +33,21 @@ class TestSecureSupport(TestCase):
         return list
 
     @staticmethod
+    def appendOnlyCAcert(list):
+
+        # In the future we can override with env variable
+        # import os
+        # security_enabled = os.environ["IS_ES_SECURED"]
+        security_enabled = True
+
+        if security_enabled:
+            list.append('--url=' + TestSecureSupport._sec['--url'])
+            list.append('--cacert=' + TestSecureSupport._sec['--cacert'])
+
+        # print "Secured command?", list
+        return list
+
+    @staticmethod
     def options_from_list(list):
         # for i in list:
         #     item = i.split('=')
