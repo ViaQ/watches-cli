@@ -9,6 +9,7 @@ type -t unzip || { echo please install /usr/bin/unzip ; exit 1 ; }
 # different connection classes to test
 #TEST_ES_CONNECTION=${TEST_ES_CONNECTION:-RequestsHttpConnection}
 export TEST_ES_CONNECTION=${TEST_ES_CONNECTION:-Urllib3HttpConnection}
+export IS_ES_SECURED=${IS_ES_SECURED:-true}
 export ES_VER=${ES_VER:-2.4.2}
 export SG_VER=${SG_VER:-2.4.2.9}
 export SG_SSL_VER=${SG_SSL_VER:-2.4.2.19}

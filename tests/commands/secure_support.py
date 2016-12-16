@@ -1,5 +1,6 @@
 
 
+import os
 from unittest import TestCase
 
 class TestSecureSupport(TestCase):
@@ -18,12 +19,10 @@ class TestSecureSupport(TestCase):
     @staticmethod
     def appendSecurityCommands(list):
 
-        # In the future we can override with env variable
-        # import os
-        # security_enabled = os.environ["IS_ES_SECURED"]
-        security_enabled = True
+        #security_enabled = "true"
+        security_enabled = os.environ["IS_ES_SECURED"]
 
-        if security_enabled:
+        if "true" == security_enabled:
             list.append('--url=' + TestSecureSupport._sec['--url'])
             list.append('--cacert=' + TestSecureSupport._sec['--cacert'])
             list.append('--cert=' + TestSecureSupport._sec['--cert'])
@@ -35,12 +34,10 @@ class TestSecureSupport(TestCase):
     @staticmethod
     def appendOnlyCAcert(list):
 
-        # In the future we can override with env variable
-        # import os
-        # security_enabled = os.environ["IS_ES_SECURED"]
-        security_enabled = True
+        # security_enabled = "true"
+        security_enabled = os.environ["IS_ES_SECURED"]
 
-        if security_enabled:
+        if "true" == security_enabled:
             list.append('--url=' + TestSecureSupport._sec['--url'])
             list.append('--cacert=' + TestSecureSupport._sec['--cacert'])
 

@@ -1,6 +1,13 @@
 # How to run tests
 
-Tests are executed against **secured Elasticsearch cluster** running on `https://localhost:9200`.
+Tests can be run both against **secured** and **non-secured** Elasticsearch cluster running
+on **`https://localhost:9200`** or **`http://localhost:9200`** respectively.
+
+By default we assume secured Elasticsearch. To enable tests against non-secured
+ Elasticsearch set env variable:
+ 
+    export IS_ES_SECURED=false
+
 For securing Elasticsearch we use [Search Guard 2](https://github.com/floragunncom/search-guard/)
 plugins configured according to its tutorials. For the convenience we provide
 a simple script that can handle installation of SG plugins, generating required
