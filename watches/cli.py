@@ -2,12 +2,13 @@
 watches
 
 Usage:
-  watches cluster_health [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--level=LEVEL --local]
-  watches cluster_state  [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--local --index=INDEX --metric=METRIC]
-  watches cluster_stats  [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...]
-  watches nodes_stats    [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--metric=METRIC]
-  watches nodes_info     [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--node_id=NODE_ID --metric=METRIC]
-  watches indices_stats  [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--level=LEVEL --index=INDEX]
+  watches cluster_health   [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--level=LEVEL --local]
+  watches cluster_state    [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--local --index=INDEX --metric=METRIC]
+  watches cluster_stats    [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...]
+  watches nodes_stats      [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--metric=METRIC]
+  watches nodes_info       [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--node_id=NODE_ID --metric=METRIC]
+  watches indices_stats    [-i=INTERVAL -d=DURATION --url=URL -tsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--level=LEVEL --index=INDEX]
+  watches nodes_hotthreads [-i=INTERVAL -d=DURATION --url=URL -sv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--node_id=NODE_ID --threads=THREADS --delay=DELAY --type=TYPE]
   watches -h
   watches --version
 
@@ -24,11 +25,14 @@ Options:
   --cacert=CACERT     Path to Certification Authority Certificate pem file
   --cert=CERT         Path to Client Certificate pem file
   --key=KEY           Path to Client Key pem file
-  --level=LEVEL       Aggregation level of returned data, valid options: cluster, indices or shards. [default: cluster].
+  --level=LEVEL       Aggregation level of returned data, valid options: cluster, indices or shards [default: cluster].
   --local             Return the local node information instead of master node [default: false].
   --node_id=NODE_ID   A comma-separated list of node IDs or names to limit the returned information; use `_local` to return information from local node you're connecting to [default: ].
   --index=INDEX       A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices.
   --metric=METRIC     A comma-separated list of metric names; use `_all` or empty string to perform the operation for all metrics.
+  --threads=THREADS   Specify the number of threads to provide information for.
+  --delay=DELAY       Delay (interval) to do the second sampling of threads.
+  --type=TYPE         The type of threads to sample (default: cpu), valid choices are: 'cpu', 'wait', 'block'.
   -h, --help          Show this screen.
   --version           Show version.
   --header=HEADER     Custom HTTP header to add to the request (e.g. --header="X-Proxy-Remote-User: username")

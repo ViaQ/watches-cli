@@ -9,6 +9,9 @@ from watches.util import ESClientProducer
 class Base(object):
     """A base command."""
 
+    TEXT_PLAIN = 'plain/text'
+    JSON_APPLICATION = 'application/json'
+
     def __init__(self, options, *args, **kwargs):
         self.options = options
         self.args = args
@@ -24,13 +27,22 @@ class Base(object):
         ts = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%fZ')
 
         data = self.getData()
-        if self.options["--timestamp"]:
-            data['timestamp'] = ts
 
-        print dumps(data, indent=2, sort_keys=False, default=lambda x:str(x))
+        # Treat JSON_APPLICATION response differently than TEXT_PLAIN
+        if self.JSON_APPLICATION == self.getResponseContentType():
+            if self.options["--timestamp"]:
+                data['timestamp'] = ts
+
+            print dumps(data, indent=2, sort_keys=False, default=lambda x:str(x))
+        else:
+            print data
 
     def getData(self):
-        raise NotImplementedError('You must implement the run() method yourself!')
+        raise NotImplementedError('Method getData() not implemented')
+
+    def getResponseContentType(self):
+        """Response MIME type. By default we assume JSON, make sure to override if needed."""
+        return self.JSON_APPLICATION
 
     def check_filter_path(self, args):
         if self.options['--filter_path'] and self.options["--filter_path"] is not None and len(self.options["--filter_path"]) > 0:
