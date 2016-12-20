@@ -2,7 +2,6 @@ Watch Elasticsearch CLI
 =======================
 
 A CLI tool that can be used to watch Elasticsearch cluster.
-*This work is under development.*
 
 Build status
 ------------
