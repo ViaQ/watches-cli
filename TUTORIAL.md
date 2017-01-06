@@ -40,10 +40,12 @@ foreach inputs as $line
   )
 ````
 
-Now, to get more data we can run watches for 10 second and get data every second (i.e. `-d 10 -i 1`):
+Now, to add headers and get more data:
 
 ````
-$ watches cluster_stats -f nodes.jvm.mem -f timestamp -d 10 -i 1 |  jq -n -r -f program.jq
+$ echo timestamp, heap_used_in_bytes, heap_max_in_bytes; \
+  watches cluster_stats -f nodes.jvm.mem -f timestamp -d 10 -i 1 |  jq -n -r -f program.jq
+timestamp, heap_used_in_bytes, heap_max_in_bytes
 1483711407530, 90468304, 1038876672
 1483711408536, 90468304, 1038876672
 1483711409545, 91184656, 1038876672
