@@ -13,12 +13,20 @@ class TestClusterHealth(TestSecureSupport):
     def test_returns_json(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_health'])
         output = popen(cmd, stdout=PIPE).communicate()[0]
+        self.assertTrue(output.count("\n") > 1)
         o = json.loads(output)
         self.assertTrue(len(o) == 15)
         self.assertTrue('status' in o)
         self.assertTrue('cluster_name' in o)
         self.assertTrue('number_of_nodes' in o)
 
+    def test_returns_single_line_json(self):
+        cmd = self.appendSecurityCommands(['watches', 'cluster_health', '-l'])
+        output = popen(cmd, stdout=PIPE).communicate()[0]
+        self.assertTrue(output.count("\n") == 1)
+        self.assertTrue('status' in output)
+        self.assertTrue('cluster_name' in output)
+        self.assertTrue('number_of_nodes' in output)
 
     def test_returns_cluster_health_with_sniffing(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_health', '--sniff'])

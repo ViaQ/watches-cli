@@ -32,8 +32,10 @@ class Base(object):
         if self.JSON_APPLICATION == self.getResponseContentType():
             if self.options["--timestamp"]:
                 data['timestamp'] = ts
-
-            print dumps(data, indent=2, sort_keys=False, default=lambda x:str(x))
+            if self.options["-l"]:
+                print dumps(data, default=lambda x:str(x))
+            else:
+                print dumps(data, indent=2, sort_keys=False, default=lambda x:str(x))
         else:
             print data
 
