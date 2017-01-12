@@ -28,6 +28,18 @@ class TestClusterHealth(TestSecureSupport):
         self.assertTrue('cluster_name' in output)
         self.assertTrue('number_of_nodes' in output)
 
+    # Test unbuffered output, see #20
+    # In fact we only test that the code can pass through this without issues
+    # but we do not test the effect of the buffer size. This is at least useful
+    # when testing against different versions of Python ('cos it depends on low level API).
+    def test_returns_single_line_unbuffered_json(self):
+        cmd = self.appendSecurityCommands(['watches', 'cluster_health', '-lb'])
+        output = popen(cmd, stdout=PIPE).communicate()[0]
+        self.assertTrue(output.count("\n") == 1)
+        self.assertTrue('status' in output)
+        self.assertTrue('cluster_name' in output)
+        self.assertTrue('number_of_nodes' in output)
+
     def test_returns_cluster_health_with_sniffing(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_health', '--sniff'])
         output = popen(cmd, stdout=PIPE).communicate()[0]

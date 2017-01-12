@@ -2,13 +2,13 @@
 watches
 
 Usage:
-  watches cluster_health   [-i=INTERVAL -d=DURATION --url=URL -ltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--level=LEVEL --local]
-  watches cluster_state    [-i=INTERVAL -d=DURATION --url=URL -ltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--local --index=INDEX --metric=METRIC]
-  watches cluster_stats    [-i=INTERVAL -d=DURATION --url=URL -ltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...]
-  watches nodes_stats      [-i=INTERVAL -d=DURATION --url=URL -ltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--metric=METRIC]
-  watches nodes_info       [-i=INTERVAL -d=DURATION --url=URL -ltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--node_id=NODE_ID --metric=METRIC]
-  watches indices_stats    [-i=INTERVAL -d=DURATION --url=URL -ltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--level=LEVEL --index=INDEX]
-  watches nodes_hotthreads [-i=INTERVAL -d=DURATION --url=URL -sv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--node_id=NODE_ID --threads=THREADS --delay=DELAY --type=TYPE]
+  watches cluster_health   [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--level=LEVEL --local]
+  watches cluster_state    [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--local --index=INDEX --metric=METRIC]
+  watches cluster_stats    [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...]
+  watches nodes_stats      [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--metric=METRIC]
+  watches nodes_info       [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--node_id=NODE_ID --metric=METRIC]
+  watches indices_stats    [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--level=LEVEL --index=INDEX]
+  watches nodes_hotthreads [-i=INTERVAL -d=DURATION --url=URL -bsv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--node_id=NODE_ID --threads=THREADS --delay=DELAY --type=TYPE]
   watches -h
   watches --version
 
@@ -16,6 +16,7 @@ Options:
   -d=DURATION, --duration=DURATION   How long the watches should run in seconds. Use value '-1' to run forever. [default: 0].
   -i=INTERVAL, --interval=INTERVAL   Interval between data retrievals. Apply if 'duration' > 0. [default: 3].
   --url=URL           URL of ES node HTTP endpoint [default: http://localhost:9200].
+  -b                  Disable python output buffering (not recommended for production use).
   -l                  Single line output (no pretty-print JSON formatting).
   -t, --timestamp     Add timestamp field to data. The value is local datetime converted to UTC in ISO 8601 format.
   -s, --sniff         Turn on sniffing.
@@ -71,6 +72,8 @@ from inspect import getmembers, isclass
 
 from docopt import docopt
 import time
+import os
+import sys
 import calendar
 import logging
 
@@ -81,6 +84,12 @@ def main():
     """Main CLI entrypoint."""
     import commands
     options = docopt(__doc__, version=VERSION)
+
+    # Turn off buffering, see #20
+    if options['-b']:
+        # buffsize = 1 should perform better then 0 while still good option for 'tail -f ...'
+        unbuffered = os.fdopen(sys.stdout.fileno(), "w", 1)
+        sys.stdout = unbuffered
 
     # Here we'll try to dynamically match the command the user is trying to run
     # with a pre-defined command class we've already created.
