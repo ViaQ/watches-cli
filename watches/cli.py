@@ -73,15 +73,23 @@ from inspect import getmembers, isclass
 from docopt import docopt
 import time
 import os
+import signal
 import sys
 import calendar
 import logging
 
 from . import __version__ as VERSION
 
+def sigterm_handler(_signo, _stack_frame):
+    sys.stdout.flush()
 
 def main():
     """Main CLI entrypoint."""
+
+    # Make sure stdout buffer is flushed on these signals
+    signal.signal(signal.SIGINT,  sigterm_handler)
+    signal.signal(signal.SIGTERM, sigterm_handler)
+
     import commands
     options = docopt(__doc__, version=VERSION)
 
