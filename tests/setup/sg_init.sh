@@ -12,9 +12,9 @@ set -euxo pipefail
 # ----------------------------------------------
 
 export IS_ES_SECURED=${IS_ES_SECURED:-true}
-export ES_VER=${ES_VER:-2.4.1}
-export SG_VER=${SG_VER:-2.4.1.8}
-export SG_SSL_VER=${SG_SSL_VER:-2.4.1.16}
+export ES_VER=${ES_VER:-2.4.4}
+export SG_VER=${SG_VER:-2.4.4.10}
+export SG_SSL_VER=${SG_SSL_VER:-2.4.4.19}
 export TMP_DIR=${TMP_DIR:-/tmp}
 export ES_HOME=${ES_HOME:-$TMP_DIR/elasticsearch}
 export ES_CONF=${ES_CONF:-./tests/conf}
@@ -73,6 +73,7 @@ if [ "${IS_ES_SECURED:-}" = true ] ; then
     cp ${TMP_DIR}/search-guard-ssl/example-pki-scripts/transport/node-0-keystore.jks ${ES_HOME}/plugins/search-guard-2/sgconfig/transport-node-0-keystore.jks
     cd ${ACTUAL_DIR}
 
+    cp ${ES_CONF}/sg_*.yml ${ES_HOME}/plugins/search-guard-2/sgconfig
 fi
 
 # $SG_SETUP_ONLY is undocumented for now.
