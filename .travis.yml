@@ -14,10 +14,6 @@ jdk:
 
 env:
   # different connection classes to test
-#  - TEST_ES_CONNECTION=RequestsHttpConnection
-  # ES 2.4.2
-  - TEST_ES_CONNECTION=Urllib3HttpConnection ES_VER=2.4.2 IS_ES_SECURED=true SG_VER=2.4.2.9 SG_SSL_VER=2.4.2.19 ES_CONF=./tests/conf ES_HOME=/tmp/elasticsearch TMP_DIR=/tmp
-  - TEST_ES_CONNECTION=Urllib3HttpConnection ES_VER=2.4.2 IS_ES_SECURED=false ES_CONF=./tests/conf ES_HOME=/tmp/elasticsearch TMP_DIR=/tmp
   # ES 2.4.4
   - TEST_ES_CONNECTION=Urllib3HttpConnection ES_VER=2.4.4 IS_ES_SECURED=true SG_VER=2.4.4.10 SG_SSL_VER=2.4.4.19 ES_CONF=./tests/conf ES_HOME=/tmp/elasticsearch TMP_DIR=/tmp
   - TEST_ES_CONNECTION=Urllib3HttpConnection ES_VER=2.4.4 IS_ES_SECURED=false ES_CONF=./tests/conf ES_HOME=/tmp/elasticsearch TMP_DIR=/tmp

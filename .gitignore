@@ -5,6 +5,8 @@
 build
 dist
 *.iml
+*.pyc
+*~
 
 # These are generated in sg_init.sh script
 tests/conf/transport-node-0-keystore.jks
