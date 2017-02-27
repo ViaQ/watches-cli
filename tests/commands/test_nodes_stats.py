@@ -32,7 +32,7 @@ class TestNodesStats(TestSecureSupport):
         cmd = self.appendSecurityCommands(['watches', 'nodes_stats', '--metric=transport,os'])
         output = popen(cmd, stdout=PIPE).communicate()[0]
         o = json.loads(output)
-        self.assertTrue(len(o['nodes']) == 1)
+        self.assertTrue(len(o['nodes']) > 0)
         node_id = o['nodes'].keys()[0]
         node_stats = o['nodes'][node_id]
         # We required two metrics, but there is some other info available in any case,
@@ -60,3 +60,20 @@ class TestNodesStats(TestSecureSupport):
         self.assertTrue('threads' in bulk)
         self.assertTrue('largest' in bulk)
         self.assertTrue('active' in bulk)
+
+    def test_returns_cluster_stats_nested(self):
+        cmd = self.appendSecurityCommands(['watches', 'nodes_stats', '--transform=nested'])
+        output = popen(cmd, stdout=PIPE).communicate()[0]
+        o = json.loads(output)
+
+        self.assertTrue('nodes' in o)
+        nodes = o['nodes']
+        self.assertTrue(isinstance(nodes, list))
+        self.assertTrue(len(nodes) > 0)
+
+        for node in nodes:
+            # Each item in nodes array must be dictionary
+            self.assertTrue(isinstance(node, dict))
+            # Each item must contain 'node' field which is expected to hold node hash id (thus string type)
+            self.assertTrue('node' in node)
+            self.assertTrue(isinstance(node['node'], basestring))

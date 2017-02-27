@@ -166,3 +166,44 @@ class TestClusterHealth(TestSecureSupport):
         cmd.extend(['--key', './junk'])
         output = popen(cmd, stderr=PIPE).communicate()[1]
         self.assertTrue('Usage:' in output)
+
+    def test_bogus_transform_value(self):
+        cmd = self.appendSecurityCommands(['watches', 'cluster_health', '--transform=bogus'])
+        output, errout = popen(cmd, stdout=PIPE, stderr=PIPE).communicate()
+        self.assertRegexpMatches(errout, '(?ms)ERROR:.*RuntimeError: Unsupported transform type')
+
+    def test_returns_cluster_health_nested(self):
+        es = ESClientProducer.create_client(
+            self.options_from_list(self.appendSecurityCommands([]))
+        )
+        es.create(index='i', doc_type='t', id='1', body={}, ignore=409, refresh=True)
+
+        cmd = self.appendSecurityCommands(['watches', 'cluster_health', '--transform=nested', '--level=shards'])
+        output = popen(cmd, stdout=PIPE).communicate()[0]
+        o = json.loads(output)
+
+        # Indices is an array
+        self.assertTrue('indices' in o)
+        indices = o['indices']
+        self.assertTrue(isinstance(indices, list))
+        self.assertTrue(len(indices) > 0)
+
+        for index in indices:
+            # Each item in indices array must be dictionary
+            self.assertTrue(isinstance(index, dict))
+
+            # Each item must contain 'index' field which is expected to hold index name (thus string type)
+            self.assertTrue('index' in index)
+            self.assertTrue(isinstance(index['index'], basestring))
+
+            # Each index must contains shards array
+            self.assertTrue('shards' in index)
+            shards = index['shards']
+            self.assertTrue(isinstance(shards, list))
+
+            for shard in shards:
+                # Each item in shards array must be dictionary
+                self.assertTrue(isinstance(shard, dict))
+                self.assertTrue('shard' in shard)
+                # shard id is int type, not string
+                self.assertTrue(isinstance(shard['shard'], int))

@@ -13,3 +13,8 @@ class NodesStats(Base):
         }
         self.check_filter_path(args)
         return self.es.nodes.stats(**args)
+
+    def transformNestedData(self, data):
+        if 'nodes' in data:
+            data['nodes'] = self.nestedNodes(data['nodes'])
+        return data
