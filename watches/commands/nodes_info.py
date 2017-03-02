@@ -14,3 +14,8 @@ class NodesInfo(Base):
         }
         self.check_filter_path(args)
         return self.es.nodes.info(**args)
+
+    def transformNestedData(self, data):
+        if 'nodes' in data:
+            data['nodes'] = self.nestedNodes(data['nodes'])
+        return data

@@ -16,3 +16,8 @@ class ClusterHealth(Base):
         self.check_filter_path(args)
         return self.es.cluster.health(**args)
 
+    def transformNestedData(self, data):
+        if 'indices' in data:
+            data['indices'] = self.nestedIndicesAndShards(data['indices'])
+        return data
+

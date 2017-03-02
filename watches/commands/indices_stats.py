@@ -14,3 +14,11 @@ class IndicesStats(Base):
         }
         self.check_filter_path(args)
         return self.es.indices.stats(**args)
+
+    def transformNestedData(self, data):
+        if 'indices' in data:
+            data['indices'] = self.nestedIndicesAndShards(data['indices'])
+        return data
+
+    def nestedShards(self, shards):
+        return self.nestedShardsArray(shards)

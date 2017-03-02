@@ -61,3 +61,29 @@ class TestIndicesStats(TestSecureSupport):
         self.assertTrue(len(docs) == 2)
         self.assertTrue('count' in docs)
         self.assertTrue('deleted' in docs)
+
+    def test_returns_nodes_info_shards_nested(self):
+        cmd = self.appendSecurityCommands(['watches', 'indices_stats', '--index=i', '--level=shards', '--transform=nested'])
+        output = popen(cmd, stdout=PIPE).communicate()[0]
+        o = json.loads(output)
+
+        # Indices is an array
+        self.assertTrue('indices' in o)
+        indices = o['indices']
+        self.assertTrue(isinstance(indices, list))
+        self.assertTrue(len(indices) > 0)
+
+        for index in indices:
+            # Each item in indices array must be dictionary
+            self.assertTrue(isinstance(index, dict))
+            # Each item must contain 'index' field which is expected to hold index name (thus string type)
+            self.assertTrue('index' in index)
+            self.assertTrue(isinstance(index['index'], basestring))
+
+            self.assertTrue('shards' in index)
+            self.assertTrue(isinstance(index['shards'], list))
+            self.assertTrue(len(index['shards']) > 0)
+
+            for shard in index['shards']:
+                self.assertTrue('shard' in shard)
+                self.assertTrue(isinstance(shard['shard'], int))
