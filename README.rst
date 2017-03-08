@@ -106,7 +106,8 @@ Release
 
 If you'd like to cut a new release of this CLI tool, and publish it to
 the Python Package Index (`PyPI <https://pypi.python.org/pypi>`_), you can do so
-by running::
+by following the following `tutorial <http://peterdowns.com/posts/first-time-with-pypi.html>`_
+or by running::
 
     $ python setup.py sdist bdist_wheel
     $ twine upload dist/*
