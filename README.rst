@@ -15,7 +15,7 @@ Synopsis
 The tool uses `docopt <http://docopt.org/>`_ to describe command line language and supports the following options::
 
     Usage:
-      watches cluster_health   [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--level=LEVEL --local]
+      watches cluster_health   [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--local --index=INDEX --level=LEVEL]
       watches cluster_state    [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--local --index=INDEX --metric=METRIC]
       watches cluster_stats    [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE]
       watches nodes_stats      [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--metric=METRIC]
@@ -118,6 +118,8 @@ build (*and this will, by default, run on all platforms*).
 The ``twine upload`` command (which requires you to install the `twine
 <https://pypi.python.org/pypi/twine>`_ tool) will then securely upload your
 new package to PyPI so everyone in the world can use it!
+
+Do not forget to update version by modifying `__init__.py <util/__init__.py>`_ file.
 
 Credits
 -------

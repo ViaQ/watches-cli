@@ -2,7 +2,7 @@
 watches
 
 Usage:
-  watches cluster_health   [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--level=LEVEL --local]
+  watches cluster_health   [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--local --index=INDEX --level=LEVEL]
   watches cluster_state    [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--local --index=INDEX --metric=METRIC]
   watches cluster_stats    [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE]
   watches nodes_stats      [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--metric=METRIC]

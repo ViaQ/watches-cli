@@ -9,6 +9,7 @@ class ClusterHealth(Base):
 
     def getData(self):
         args = {
+            'index': self.options['--index'],
             'level': self.options['--level'],
             'local': self.options['--local'],
             'request_timeout': 1

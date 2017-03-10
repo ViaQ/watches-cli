@@ -99,6 +99,29 @@ class TestClusterHealth(TestSecureSupport):
         self.assertTrue('indices' in o)
         self.assertTrue('shards' in o['indices']['i'])
 
+    def test_returns_cluster_health_listed_indices(self):
+        es = ESClientProducer.create_client(
+            self.options_from_list(self.appendSecurityCommands([]))
+        )
+        # make sure we have at least two indices in cluster
+        es.create(index='i', doc_type='t', id='1', body={}, ignore=409, refresh=True)
+        es.indices.delete(index='i2', ignore=404)
+        es.create(index='i2', doc_type='t', id='1', body={'settings':{'number_of_shards':5}}, ignore=409, refresh=True)
+
+        # First, we check that number of shards for index "i2" is 5 and then...
+        cmd = self.appendSecurityCommands(['watches', 'cluster_health', '--index=i2'])
+        output = popen(cmd, stdout=PIPE).communicate()[0]
+        o = json.loads(output)
+        self.assertTrue('active_primary_shards' in o)
+        self.assertTrue(o['active_primary_shards'] == 5)
+
+        # ... next, we test that number of shards for whole cluster is higher.
+        cmd = self.appendSecurityCommands(['watches', 'cluster_health'])
+        output = popen(cmd, stdout=PIPE).communicate()[0]
+        o = json.loads(output)
+        self.assertTrue('active_primary_shards' in o)
+        self.assertTrue(o['active_primary_shards'] > 5)
+
     def test_returns_cluster_health_with_shards_filtered(self):
         es = ESClientProducer.create_client(
             self.options_from_list(self.appendSecurityCommands([]))
@@ -142,7 +165,7 @@ class TestClusterHealth(TestSecureSupport):
         self.assertTrue('cluster_name' in o)
         self.assertTrue('number_of_nodes' in o)
 
-   # negative tests to see if we get Usage: message for bogus arguments
+    # negative tests to see if we get Usage: message for bogus arguments
     def test_username_no_password(self):
         cmd = self.appendOnlyCAcert(['watches', 'cluster_health'])
         cmd.extend(['--username', 'junk'])
