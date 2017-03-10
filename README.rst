@@ -119,7 +119,7 @@ The ``twine upload`` command (which requires you to install the `twine
 <https://pypi.python.org/pypi/twine>`_ tool) will then securely upload your
 new package to PyPI so everyone in the world can use it!
 
-Do not forget to update version by modifying `__init__.py <util/__init__.py>`_ file.
+Do not forget to update version by modifying `__init__.py <watches/__init__.py>`_ file.
 
 Credits
 -------
