@@ -67,6 +67,10 @@ class TestIndicesStats(TestSecureSupport):
         output = popen(cmd, stdout=PIPE).communicate()[0]
         o = json.loads(output)
 
+        # See #33
+        self.assertTrue('_all' not in o)
+        self.assertTrue('indices_summary' in o)
+
         # Indices is an array
         self.assertTrue('indices' in o)
         indices = o['indices']
