@@ -8,14 +8,14 @@ from watches import __version__ as VERSION
 
 class TestHelp(TestCase):
     def test_returns_usage_information(self):
-        output = popen(['watches', '-h'], stdout=PIPE).communicate()[0]
+        output = popen(['watches', '-h'], stdout=PIPE).communicate()[0].decode('ascii')
         self.assertTrue('Usage:' in output)
 
-        output = popen(['watches', '--help'], stdout=PIPE).communicate()[0]
+        output = popen(['watches', '--help'], stdout=PIPE).communicate()[0].decode('ascii')
         self.assertTrue('Usage:' in output)
 
 
 class TestVersion(TestCase):
     def test_returns_version_information(self):
-        output = popen(['watches', '--version'], stdout=PIPE).communicate()[0]
+        output = popen(['watches', '--version'], stdout=PIPE).communicate()[0].decode('ascii')
         self.assertEqual(output.strip(), VERSION)

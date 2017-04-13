@@ -76,13 +76,16 @@ import time
 import os
 import signal
 import sys
+import inspect
 import calendar
 import logging
 
 from . import __version__ as VERSION
 
+
 def sigterm_handler(_signo, _stack_frame):
     sys.stdout.flush()
+
 
 def main():
     """Main CLI entrypoint."""
@@ -91,7 +94,10 @@ def main():
     signal.signal(signal.SIGINT,  sigterm_handler)
     signal.signal(signal.SIGTERM, sigterm_handler)
 
-    import commands
+    import watches.commands
+    commands = {}
+    for k, v in inspect.getmembers(sys.modules["watches.commands"], inspect.isclass):
+        commands[k] = v
     options = docopt(__doc__, version=VERSION)
 
     # Turn off buffering, see #20
@@ -102,12 +108,13 @@ def main():
 
     # Here we'll try to dynamically match the command the user is trying to run
     # with a pre-defined command class we've already created.
-    for k, v in options.iteritems():
-        if hasattr(commands, k) and v:
-            module = getattr(commands, k)
+    for k, v in options.items():
+        if k in commands and v:
+            module = commands[k]
             commands = getmembers(module, isclass)
-            command = [command[1] for command in commands if command[0] != 'Base'][0]
-            command = command(options)
+            # command = [command[1] for command in commands if command[0] != 'Base'][0]
+            # command = command(options)
+            command = module(options)
 
             duration = int(options['--duration'])
             interval = int(options['--interval'])
@@ -123,6 +130,7 @@ def main():
                 if duration > -1 and (actualsec + interval) >= endsec:
                     break
                 time.sleep(interval)
+
 
 def execute(command):
     """

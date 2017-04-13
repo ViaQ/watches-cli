@@ -8,7 +8,7 @@ from secure_support import TestSecureSupport
 class TestNodesHotThreads(TestSecureSupport):
     def test_returns_data(self):
         cmd = self.appendSecurityCommands(['watches', 'nodes_hotthreads', '--threads', '10'])
-        o = popen(cmd, stdout=PIPE).communicate()[0]
+        o = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         self.assertTrue(len(o) > 0)
         self.assertTrue('Hot threads' in o)
         self.assertTrue('interval=500ms, busiestThreads=10' in o)

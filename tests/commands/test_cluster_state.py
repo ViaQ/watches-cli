@@ -5,24 +5,25 @@ import json
 from subprocess import PIPE, Popen as popen
 from secure_support import TestSecureSupport
 from watches.util import ESClientProducer
+from six import string_types
 
 
 class TestClusterState(TestSecureSupport):
     def test_returns_json(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_state'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue(len(o) == 9)
 
     def test_returns_cluster_state_local(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_state', '--local'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue(len(o) == 9)
 
     def test_returns_cluster_state(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_state'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue('cluster_name' in o)
         self.assertTrue('state_uuid' in o)
@@ -46,7 +47,7 @@ class TestClusterState(TestSecureSupport):
         es.create(index='i', doc_type='t', id='1', body={}, ignore=409, refresh=True)
 
         cmd = self.appendSecurityCommands(['watches', 'cluster_state', '--metric=metadata', '--index=i'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue(len(o) == 2)
         self.assertTrue('cluster_name' in o)
@@ -55,7 +56,7 @@ class TestClusterState(TestSecureSupport):
 
     def test_returns_cluster_state_filtered(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_state', '-f cluster_name', '-f master_node'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue(len(o) == 2)
         self.assertTrue('cluster_name' in o)
@@ -63,7 +64,7 @@ class TestClusterState(TestSecureSupport):
 
     def test_returns_cluster_state_nested(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_state', '--transform=nested'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
 
         self.assertTrue('metadata' in o)
@@ -80,7 +81,7 @@ class TestClusterState(TestSecureSupport):
 
             # Each item must contain 'index' field which is expected to hold index name (thus string type)
             self.assertTrue('index' in index)
-            self.assertTrue(isinstance(index['index'], basestring))
+            self.assertTrue(isinstance(index['index'], string_types))
 
         # Nodes is an array
         self.assertTrue('nodes' in o)
@@ -93,7 +94,7 @@ class TestClusterState(TestSecureSupport):
             self.assertTrue(isinstance(node, dict))
             # Each item must contain 'node' field which is expected to hold node hash id (thus string type)
             self.assertTrue('node' in node)
-            self.assertTrue(isinstance(node['node'], basestring))
+            self.assertTrue(isinstance(node['node'], string_types))
 
         # Routing table indices
         self.assertTrue('routing_table' in o)
@@ -104,7 +105,7 @@ class TestClusterState(TestSecureSupport):
         for index in indices:
             self.assertTrue(isinstance(index, dict))
             self.assertTrue('index' in index)
-            self.assertTrue(isinstance(index['index'], basestring))
+            self.assertTrue(isinstance(index['index'], string_types))
             self.assertTrue('shards' in index)
             self.assertTrue(isinstance(index['shards'], list))
             self.assertTrue(len(index['shards']) > 0)
