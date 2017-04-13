@@ -1,6 +1,8 @@
 """Provider of Elasticsearch client."""
 
 from elasticsearch import Elasticsearch
+from six import string_types
+
 
 def create_client(options):
     """Produces a new Elasticsearch client according to provided options."""
@@ -29,10 +31,10 @@ def create_client(options):
         })
 
     if "--cacert" in options and options['--cacert']:
-        #see if the value is a string or a list
-        if isinstance(options['--cacert'], basestring):
+        # see if the value is a string or a list
+        if isinstance(options['--cacert'], string_types):
             cacert = options['--cacert']
-        else: # assume list
+        else:  # assume list
             cacert = options['--cacert'][0]
         # because we mention --cacert in two places in the docopt, it automatically
         # converts to a list - we just take the first one
@@ -50,10 +52,10 @@ def create_client(options):
     # convert from list to dict
     headers = {}
     for hdr in options.get('--header', []):
-        k,v = hdr.split(':', 1)
+        k, v = hdr.split(':', 1)
         headers[k] = v.lstrip()
     if headers:
-         user_kwargs.update({
+        user_kwargs.update({
             "headers": headers
         })
 

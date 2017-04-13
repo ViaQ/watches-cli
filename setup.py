@@ -33,33 +33,34 @@ class RunTests(Command):
 
 
 setup(
-    name = 'watches',
-    version = __version__,
-    description = 'CLI tool to pull statistics from Elasticsearch.',
-    long_description = long_description,
-    url = 'https://github.com/ViaQ/watches-cli',
-    download_url = 'https://github.com/ViaQ/watches-cli/archive/v1.0.1.tar.gz',
-    author = 'Lukas Vlcek',
-    author_email = 'lukas.vlcek@gmail.com',
-    license = 'ASL2',
-    classifiers = [
+    name='watches',
+    version=__version__,
+    description='CLI tool to pull statistics from Elasticsearch.',
+    long_description=long_description,
+    url='https://github.com/ViaQ/watches-cli',
+    download_url='https://github.com/ViaQ/watches-cli/archive/v1.0.1.tar.gz',
+    author='Lukas Vlcek',
+    author_email='lukas.vlcek@gmail.com',
+    license='ASL2',
+    classifiers=[
         'Intended Audience :: Developers',
         'Topic :: Utilities',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.5',
     ],
-    keywords = ['cli', 'elasticsearch'],
-    packages = find_packages(exclude=['docs', 'tests*']),
-    install_requires = ['docopt', 'elasticsearch', 'datetime', 'logging'],
-    extras_require = {
+    keywords=['cli', 'elasticsearch'],
+    packages=find_packages(exclude=['docs', 'tests*']),
+    install_requires=['docopt', 'elasticsearch', 'datetime', 'six'],
+    extras_require={
         'test': ['coverage', 'pytest', 'pytest-cov'],
     },
-    entry_points = {
+    entry_points={
         'console_scripts': [
             'watches=watches.cli:main',
         ],
     },
-    cmdclass = {'test': RunTests},
+    cmdclass={'test': RunTests},
 )

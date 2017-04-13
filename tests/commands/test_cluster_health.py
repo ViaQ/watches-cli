@@ -5,6 +5,7 @@ import json
 from subprocess import PIPE, Popen as popen
 from secure_support import TestSecureSupport
 from watches.util import ESClientProducer
+from six import string_types
 
 
 class TestClusterHealth(TestSecureSupport):
@@ -12,7 +13,7 @@ class TestClusterHealth(TestSecureSupport):
 
     def test_returns_json(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_health'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         self.assertTrue(output.count("\n") > 1)
         o = json.loads(output)
         self.assertTrue(len(o) == 15)
@@ -22,7 +23,7 @@ class TestClusterHealth(TestSecureSupport):
 
     def test_returns_single_line_json(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_health', '-l'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         self.assertTrue(output.count("\n") == 1)
         self.assertTrue('status' in output)
         self.assertTrue('cluster_name' in output)
@@ -34,7 +35,7 @@ class TestClusterHealth(TestSecureSupport):
     # when testing against different versions of Python ('cos it depends on low level API).
     def test_returns_single_line_unbuffered_json(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_health', '-lb'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         self.assertTrue(output.count("\n") == 1)
         self.assertTrue('status' in output)
         self.assertTrue('cluster_name' in output)
@@ -42,7 +43,7 @@ class TestClusterHealth(TestSecureSupport):
 
     def test_returns_cluster_health_with_sniffing(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_health', '--sniff'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue(len(o) == 15)
         self.assertTrue('status' in o)
@@ -51,13 +52,13 @@ class TestClusterHealth(TestSecureSupport):
 
     def test_returns_cluster_health_with_verbose(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_health', '--verbose'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         # Unless we index some data to cluster we can only check the indices field is present
         self.assertTrue('Supplied options' in output)
 
     def test_returns_cluster_health_with_timestamp(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_health', '--timestamp'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         # Unless we index some data to cluster we can only check the indices field is present
         o = json.loads(output)
         self.assertTrue(len(o) == 16)
@@ -65,7 +66,7 @@ class TestClusterHealth(TestSecureSupport):
 
     def test_returns_cluster_health(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_health'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue('cluster_name' in o)
         self.assertTrue('number_of_nodes' in o)
@@ -82,7 +83,7 @@ class TestClusterHealth(TestSecureSupport):
 
     def test_returns_cluster_health_with_indices(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_health', '--level=indices'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue('indices' in o)
         self.assertTrue('shards' not in o)
@@ -94,7 +95,7 @@ class TestClusterHealth(TestSecureSupport):
         es.create(index='i', doc_type='t', id='1', body={}, ignore=409, refresh=True)
 
         cmd = self.appendSecurityCommands(['watches', 'cluster_health', '--level=shards'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue('indices' in o)
         self.assertTrue('shards' in o['indices']['i'])
@@ -110,14 +111,14 @@ class TestClusterHealth(TestSecureSupport):
 
         # First, we check that number of shards for index "i2" is 5 and then...
         cmd = self.appendSecurityCommands(['watches', 'cluster_health', '--index=i2'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue('active_primary_shards' in o)
         self.assertTrue(o['active_primary_shards'] == 5)
 
         # ... next, we test that number of shards for whole cluster is higher.
         cmd = self.appendSecurityCommands(['watches', 'cluster_health'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue('active_primary_shards' in o)
         self.assertTrue(o['active_primary_shards'] > 5)
@@ -130,7 +131,7 @@ class TestClusterHealth(TestSecureSupport):
 
         cmd = self.appendSecurityCommands(['watches', 'cluster_health', '--level=shards',
                                            '-f status', '-f *.*.status', '-f indices.*.shards.*.status'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
 
         self.assertTrue(len(o) == 2)
@@ -147,7 +148,7 @@ class TestClusterHealth(TestSecureSupport):
     def test_ca_cert_only(self):
         cmd = self.appendOnlyCAcert(['watches', 'cluster_health'])
         cmd.extend(TestClusterHealth.username_password)
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue(len(o) == 15)
         self.assertTrue('status' in o)
@@ -158,7 +159,7 @@ class TestClusterHealth(TestSecureSupport):
         cmd = self.appendOnlyCAcert(['watches', 'cluster_health'])
         cmd.extend(TestClusterHealth.username_password)
         cmd.extend(['--header', 'X-Foo: foo', '--header', 'X-Bar: bar'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue(len(o) == 15)
         self.assertTrue('status' in o)
@@ -169,31 +170,31 @@ class TestClusterHealth(TestSecureSupport):
     def test_username_no_password(self):
         cmd = self.appendOnlyCAcert(['watches', 'cluster_health'])
         cmd.extend(['--username', 'junk'])
-        output = popen(cmd, stderr=PIPE).communicate()[1]
+        output = popen(cmd, stderr=PIPE).communicate()[1].decode('ascii')
         self.assertTrue('Usage:' in output)
 
     def test_password_no_username(self):
         cmd = self.appendOnlyCAcert(['watches', 'cluster_health'])
         cmd.extend(['--password', 'junk'])
-        output = popen(cmd, stderr=PIPE).communicate()[1]
+        output = popen(cmd, stderr=PIPE).communicate()[1].decode('ascii')
         self.assertTrue('Usage:' in output)
 
     def test_cert_no_key(self):
         cmd = self.appendOnlyCAcert(['watches', 'cluster_health'])
         cmd.extend(['--cert', './junk'])
-        output = popen(cmd, stderr=PIPE).communicate()[1]
+        output = popen(cmd, stderr=PIPE).communicate()[1].decode('ascii')
         self.assertTrue('Usage:' in output)
 
     def test_key_no_cert(self):
         cmd = self.appendOnlyCAcert(['watches', 'cluster_health'])
         cmd.extend(['--key', './junk'])
-        output = popen(cmd, stderr=PIPE).communicate()[1]
+        output = popen(cmd, stderr=PIPE).communicate()[1].decode('ascii')
         self.assertTrue('Usage:' in output)
 
     def test_bogus_transform_value(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_health', '--transform=bogus'])
         output, errout = popen(cmd, stdout=PIPE, stderr=PIPE).communicate()
-        self.assertRegexpMatches(errout, '(?ms)ERROR:.*RuntimeError: Unsupported transform type')
+        self.assertRegexpMatches(errout.decode('ascii'), '(?ms)ERROR:.*RuntimeError: Unsupported transform type')
 
     def test_returns_cluster_health_nested(self):
         es = ESClientProducer.create_client(
@@ -202,7 +203,7 @@ class TestClusterHealth(TestSecureSupport):
         es.create(index='i', doc_type='t', id='1', body={}, ignore=409, refresh=True)
 
         cmd = self.appendSecurityCommands(['watches', 'cluster_health', '--transform=nested', '--level=shards'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
 
         # Indices is an array
@@ -217,7 +218,7 @@ class TestClusterHealth(TestSecureSupport):
 
             # Each item must contain 'index' field which is expected to hold index name (thus string type)
             self.assertTrue('index' in index)
-            self.assertTrue(isinstance(index['index'], basestring))
+            self.assertTrue(isinstance(index['index'], string_types))
 
             # Each index must contains shards array
             self.assertTrue('shards' in index)

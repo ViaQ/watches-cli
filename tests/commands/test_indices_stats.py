@@ -5,12 +5,13 @@ import json
 from subprocess import PIPE, Popen as popen
 from secure_support import TestSecureSupport
 from watches.util import ESClientProducer
+from six import string_types
 
 
 class TestIndicesStats(TestSecureSupport):
     def test_returns_json(self):
         cmd = self.appendSecurityCommands(['watches', 'indices_stats'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue(len(o) == 2)
 
@@ -23,7 +24,7 @@ class TestIndicesStats(TestSecureSupport):
         es.create(index='i', doc_type='t', id='1', body={}, ignore=409, refresh=True)
 
         cmd = self.appendSecurityCommands(['watches', 'indices_stats'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue(len(o) == 2)
         self.assertTrue('_all' in o)
@@ -38,7 +39,7 @@ class TestIndicesStats(TestSecureSupport):
         es.create(index='i', doc_type='t', id='1', body={}, ignore=409, refresh=True)
 
         cmd = self.appendSecurityCommands(['watches', 'indices_stats', '--level=shards'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue(len(o) == 3)
         self.assertTrue('_all' in o)
@@ -55,7 +56,7 @@ class TestIndicesStats(TestSecureSupport):
 
     def test_returns_nodes_info_shards_level_filtered(self):
         cmd = self.appendSecurityCommands(['watches', 'indices_stats', '-f _all.total.docs'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         docs = o['_all']['total']['docs']
         self.assertTrue(len(docs) == 2)
@@ -64,7 +65,7 @@ class TestIndicesStats(TestSecureSupport):
 
     def test_returns_nodes_info_shards_nested(self):
         cmd = self.appendSecurityCommands(['watches', 'indices_stats', '--index=i', '--level=shards', '--transform=nested'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
 
         # See #33
@@ -82,7 +83,7 @@ class TestIndicesStats(TestSecureSupport):
             self.assertTrue(isinstance(index, dict))
             # Each item must contain 'index' field which is expected to hold index name (thus string type)
             self.assertTrue('index' in index)
-            self.assertTrue(isinstance(index['index'], basestring))
+            self.assertTrue(isinstance(index['index'], string_types))
 
             self.assertTrue('shards' in index)
             self.assertTrue(isinstance(index['shards'], list))

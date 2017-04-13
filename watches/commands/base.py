@@ -18,7 +18,7 @@ class Base(object):
         self.kwargs = kwargs
 
         if self.options["--verbose"]:
-            print 'Supplied options:', dumps(self.options, indent=2, sort_keys=True)
+            print('Supplied options:', dumps(self.options, indent=2, sort_keys=True))
 
         self.es = ESClientProducer.create_client(self.options)
 
@@ -38,11 +38,11 @@ class Base(object):
                 data = self.transformData(data)
 
             if self.options["-l"]:
-                print dumps(data, default=lambda x:str(x))
+                print(dumps(data, default=lambda x:str(x)))
             else:
-                print dumps(data, indent=2, sort_keys=False, default=lambda x:str(x))
+                print(dumps(data, indent=2, sort_keys=False, default=lambda x:str(x)))
         else:
-            print data
+            print(data)
 
     def getData(self):
         raise NotImplementedError('Method getData() not implemented')

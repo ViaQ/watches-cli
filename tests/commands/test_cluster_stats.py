@@ -9,13 +9,13 @@ from secure_support import TestSecureSupport
 class TestClusterStats(TestSecureSupport):
     def test_returns_multiple_lines(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_stats'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue(len(o) == 5)
 
     def test_returns_cluster_stats(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_stats'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue('cluster_name' in o)
         self.assertTrue('timestamp' in o)
@@ -46,7 +46,7 @@ class TestClusterStats(TestSecureSupport):
 
     def test_returns_cluster_stats_filtered(self):
         cmd = self.appendSecurityCommands(['watches', 'cluster_stats', '-f status'])
-        output = popen(cmd, stdout=PIPE).communicate()[0]
+        output = popen(cmd, stdout=PIPE).communicate()[0].decode('ascii')
         o = json.loads(output)
         self.assertTrue(len(o) == 1)
         self.assertTrue('status' in o)
