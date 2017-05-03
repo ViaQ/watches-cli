@@ -9,6 +9,20 @@ Build status
 .. image:: https://secure.travis-ci.org/ViaQ/watches-cli.png
    :target: http://travis-ci.org/#!/ViaQ/watches-cli
 
+Support Matrix
+--------------
+
+The following combinations are regularly tested.
+
+=======  =============  ========
+watches  Elasticsearch  Python
+=======  =============  ========
+1.0.2    2.4.4          2.7, 3.5
+-------  -------------  --------
+1.0.1    2.4.4          2.7
+=======  =============  ========
+
+
 Synopsis
 --------
 
@@ -119,7 +133,8 @@ The ``twine upload`` command (which requires you to install the `twine
 <https://pypi.python.org/pypi/twine>`_ tool) will then securely upload your
 new package to PyPI so everyone in the world can use it!
 
-Do not forget to update version by modifying `__init__.py <watches/__init__.py>`_ file.
+Do not forget to update version by modifying `__init__.py <watches/__init__.py>`_
+and `setup.py <setup.py>`_ files (download URL and other if applicable).
 
 Credits
 -------
