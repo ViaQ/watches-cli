@@ -38,7 +38,7 @@ setup(
     description='CLI tool to pull statistics from Elasticsearch.',
     long_description=long_description,
     url='https://github.com/ViaQ/watches-cli',
-    download_url='https://github.com/ViaQ/watches-cli/archive/v1.0.1.tar.gz',
+    download_url='https://github.com/ViaQ/watches-cli/archive/v1.0.2.tar.gz',
     author='Lukas Vlcek',
     author_email='lukas.vlcek@gmail.com',
     license='ASL2',
