@@ -12,6 +12,15 @@ class Base(object):
     TEXT_PLAIN = 'plain/text'
     JSON_APPLICATION = 'application/json'
 
+    TRANSFORM_PARAM = '--transform'
+    TIMESTAMP_PARAM = '--timestamp'
+
+    TRANSFORM_VALUE_NESTED = 'nested'
+    TIMESTAMP_KEY = 'timestamp'
+
+    _ALL_KEYWORD = '_all'
+    _ALL_INDICES_PLACEHOLDER = 'indices_summary'
+
     def __init__(self, options, *args, **kwargs):
         self.options = options
         self.args = args
@@ -29,18 +38,26 @@ class Base(object):
         data = self.getData()
 
         # Treat JSON_APPLICATION response differently than TEXT_PLAIN
+        # JSON data can be injected timestamp and formatted
         if self.JSON_APPLICATION == self.getResponseContentType():
 
-            if self.options["--timestamp"]:
-                data['timestamp'] = ts
+            if self.options[self.TIMESTAMP_PARAM]:
+                data[self.TIMESTAMP_KEY] = ts
 
-            if self.options["--transform"]:
+            if self.options[self.TRANSFORM_PARAM]:
                 data = self.transformData(data)
 
+        self.printData(data)
+
+    def printData(self, data):
+        """Print the data to the output. Depending on content type the data can be formatted differently.
+        Commands can also override this method is special treatment is needed, for example "just_*" commands.
+        """
+        if self.JSON_APPLICATION == self.getResponseContentType():
             if self.options["-l"]:
-                print(dumps(data, default=lambda x:str(x)))
+                print(dumps(data, default=lambda x: str(x)))
             else:
-                print(dumps(data, indent=2, sort_keys=False, default=lambda x:str(x)))
+                print(dumps(data, indent=2, sort_keys=False, default=lambda x: str(x)))
         else:
             print(data)
 
@@ -55,12 +72,13 @@ class Base(object):
         """
         Data can be transformed before sending to client.
         Currently, the only transformation type implemented is 'nested'.
+
         :param data:
         :return:
         """
-        transform = self.options['--transform']
+        transform = self.options[self.TRANSFORM_PARAM]
         if transform:
-            if transform == "nested":
+            if transform == self.TRANSFORM_VALUE_NESTED:
                 return self.transformNestedData(data)
             else:
                 raise RuntimeError('Unsupported transform type')

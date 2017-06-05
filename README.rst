@@ -29,13 +29,15 @@ Synopsis
 The tool uses `docopt <http://docopt.org/>`_ to describe command line language and supports the following options::
 
     Usage:
-      watches cluster_health   [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--local --index=INDEX --level=LEVEL]
-      watches cluster_state    [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--local --index=INDEX --metric=METRIC]
-      watches cluster_stats    [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE]
-      watches nodes_stats      [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--metric=METRIC]
-      watches nodes_info       [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--node_id=NODE_ID --metric=METRIC]
-      watches indices_stats    [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--level=LEVEL --index=INDEX]
-      watches nodes_hotthreads [-i=INTERVAL -d=DURATION --url=URL -bsv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--node_id=NODE_ID --threads=THREADS --delay=DELAY --type=TYPE]
+      watches cluster_health     [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--local --index=INDEX --level=LEVEL]
+      watches cluster_state      [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--local --index=INDEX --metric=METRIC]
+      watches cluster_stats      [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE]
+      watches nodes_stats        [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--metric=METRIC]
+      watches nodes_info         [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--node_id=NODE_ID --metric=METRIC]
+      watches indices_stats      [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--transform=TYPE] [--level=LEVEL --index=INDEX]
+      watches nodes_hotthreads   [-i=INTERVAL -d=DURATION --url=URL -bsv] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--node_id=NODE_ID --threads=THREADS --delay=DELAY --type=TYPE]
+      watches just_nodes_stats   [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--metric=METRIC]
+      watches just_indices_stats [-i=INTERVAL -d=DURATION --url=URL -bltsv -f=FILTER...] [(--cacert=CACERT --cert=CERT --key=KEY) | (--cacert=CACERT)] [(--username=USERNAME --password=PASSWORD)] [--header=HEADER...] [--level=LEVEL --index=INDEX]
       watches -h
       watches --version
 
@@ -54,7 +56,7 @@ The tool uses `docopt <http://docopt.org/>`_ to describe command line language a
       --cacert=CACERT     Path to Certification Authority Certificate pem file
       --cert=CERT         Path to Client Certificate pem file
       --key=KEY           Path to Client Key pem file
-      --level=LEVEL       Aggregation level of returned data, valid options: cluster, indices or shards [default: cluster].
+      --level=LEVEL       Aggregation level of returned data, valid options: node/cluster, indices and shards [default: cluster].
       --local             Return the local node information instead of master node [default: false].
       --node_id=NODE_ID   A comma-separated list of node IDs or names to limit the returned information; use `_local` to return information from local node you're connecting to [default: ].
       --index=INDEX       A comma-separated list of index names; use `_all` or empty string to perform the operation on all indices.
@@ -89,6 +91,11 @@ The tool uses `docopt <http://docopt.org/>`_ to describe command line language a
 
       # Filter cluster health for status fields
       $ watches cluster_health --level=shards -f status -f indices.*.status -f indices.*.shards.*.status
+
+      Notice:
+        Option --filter_path works under original context for commands 'just_nodes_stats' and 'just_indices_stats'.
+        For example, if command 'just_indices_stats' is called the 'indices_stats' command is executed first, then
+        --filter_path option is applied and only then the result data is transformed into 'just_indices_stats' output.
 
 To connect to Elasticsearch cluster ``watches`` uses official
 `elasticsearch-py <https://github.com/elastic/elasticsearch-py/>`_ client which
