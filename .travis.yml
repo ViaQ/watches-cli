@@ -26,6 +26,8 @@ install:
   - chmod u+x ./tests/setup/sg_init.sh
   - ./tests/setup/sg_init.sh
   - pip install -e .[test]
+  # Print library versions
+  - pip list
 
 script:
   - python setup.py test
