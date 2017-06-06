@@ -3,6 +3,7 @@
 
 from .base import Base
 
+
 class NodesHotThreads(Base):
     """Get nodes hot threads"""
 
@@ -14,6 +15,6 @@ class NodesHotThreads(Base):
             'node_id': self.options['--node_id'],
             'threads': self.options['--threads'],
             'interval': self.options['--delay'],
-            'doc_type': self.options['--type']
+            'type': self.options['--type']
         }
         return self.es.nodes.hot_threads(**args)
