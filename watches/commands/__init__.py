@@ -5,3 +5,5 @@ from watches.commands.nodes_stats import NodesStats as nodes_stats
 from watches.commands.nodes_info import NodesInfo as nodes_info
 from watches.commands.indices_stats import IndicesStats as indices_stats
 from watches.commands.nodes_hotthreads import NodesHotThreads as nodes_hotthreads
+from watches.commands.just_nodes_stats import JustNodesStats as just_nodes_stats
+from watches.commands.just_indices_stats import JustIndicesStats as just_indices_stats

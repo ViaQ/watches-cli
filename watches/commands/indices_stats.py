@@ -17,9 +17,9 @@ class IndicesStats(Base):
 
     def transformNestedData(self, data):
         # Hot fix, this should be solved more generally using field renaming (see #33)
-        if '_all' in data:
-            data['indices_summary'] = data['_all']
-            del data['_all']
+        if self._ALL_KEYWORD in data:
+            data[self._ALL_INDICES_PLACEHOLDER] = data[self._ALL_KEYWORD]
+            del data[self._ALL_KEYWORD]
 
         if 'indices' in data:
             data['indices'] = self.nestedIndicesAndShards(data['indices'])
